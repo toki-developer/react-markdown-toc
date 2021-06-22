@@ -33,29 +33,39 @@ const body = `
 export default function Home() {
   const H2 = ({ node, ...props }) => {
     return (
-        <h2 id={node.position?.start.line.toString()}>{props.children}</h2>
+      <div>
+        <h2  id={node.position?.start.line.toString()}>{props.children}</h2>
+      </div>
     );
   }
 
   const ankerLink = ({ node, ...props }) => {
     return (
-        <a href={"#"+node.position?.start.line.toString()}>{props.children}</a>
+        <a className="list-item hover:bg-gray-200" href={"#"+node.position?.start.line.toString()}>{props.children}</a>
     );
   }
 
   return (
-    <div>
+    <div className="w-full max-w-3xl m-auto">
 
       {/* 目次 */}
-      <ReactMarkdown
-      allowedElements={["h2"]}
-      components={{
-          h2: ankerLink,
-        }}>
+      <div className="m-10 p-3 bg-gray-100 border border-black border-dashed">
+        目次
+        <ol className="list-decimal list-inside p-2">
+        <ReactMarkdown
+          allowedElements={["h2"]}
+          components={{
+            h2: ankerLink,
+          }}
+        >
           {body}
-      </ReactMarkdown>
+        </ReactMarkdown>
+        </ol>
+
+      </div>
 
       {/* 本文 */}
+      <div className="markdown">
       <ReactMarkdown
         components={{
           h2: H2,
@@ -63,7 +73,7 @@ export default function Home() {
       >
           {body}
       </ReactMarkdown>
-
+      </div>
     </div>
   )
 }
